@@ -1,0 +1,28 @@
+{
+  "name": "@buttercup/config",
+  "version": "0.0.0",
+  "description": "Configuration utility",
+  "main": "source/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/buttercup/buttercup-config.git"
+  },
+  "keywords": [
+    "config",
+    "configuration",
+    "buttercup",
+    "settings"
+  ],
+  "author": "Perry Mitchell <perry@perrymitchell.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/buttercup/buttercup-config/issues"
+  },
+  "homepage": "https://github.com/buttercup/buttercup-config#readme",
+  "dependencies": {
+    "deepmerge": "^2.0.1"
+  }
+}
