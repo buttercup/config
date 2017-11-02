@@ -1,0 +1,2 @@
+# buttercup-config
+Configuration utility
