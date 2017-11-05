@@ -4,7 +4,9 @@
   "description": "Configuration utility",
   "main": "source/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "run-s test:unit",
+    "test:unit": "mocha -r test/index.js 'test/unit/**/*.spec.js'",
+    "test:unit:watch": "npm run test:unit -- --watch"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,15 @@
   },
   "homepage": "https://github.com/buttercup/buttercup-config#readme",
   "dependencies": {
-    "deepmerge": "^2.0.1"
+    "clone": "^2.1.1",
+    "deepmerge": "^2.0.1",
+    "dot-prop": "^4.2.0",
+    "eventemitter3": "^2.0.3"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "npm-run-all": "^4.1.1",
+    "sinon": "^4.1.1"
   }
 }
