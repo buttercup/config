@@ -6,7 +6,7 @@
   "scripts": {
     "test": "run-s test:unit",
     "test:unit": "mocha -r test/index.js 'test/unit/**/*.spec.js'",
-    "test:unit:watch": "npm run test:unit -- --watch"
+    "test:unit:watch": "nodemon --exec 'npm run test:unit'"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "chai": "^4.1.2",
     "mocha": "^4.0.1",
+    "nodemon": "^1.15.1",
     "npm-run-all": "^4.1.1",
     "sinon": "^4.1.1"
   }
