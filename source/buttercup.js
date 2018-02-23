@@ -50,9 +50,9 @@ function objectToKeyList(obj, keys = []) {
             const nextValue = obj[nextKey];
             const handleNonArrayValue = (deepKeys, value) => {
                 if (typeof value === "object" && value !== null) {
-                    Object.assign(output, objectToKeyList(value, [...deepKeys, escapeKey(nextKey)]));
+                    Object.assign(output, objectToKeyList(value, deepKeys));
                 } else {
-                    const finalKey = [...deepKeys, escapeKey(nextKey)].join(".");
+                    const finalKey = deepKeys.join(".");
                     output[finalKey] = value;
                 }
             };
@@ -66,9 +66,9 @@ function objectToKeyList(obj, keys = []) {
                 });
             };
             if (Array.isArray(nextValue)) {
-                handleArrayValue(keys, nextValue);
+                handleArrayValue([...keys, escapeKey(nextKey)], nextValue);
             } else {
-                handleNonArrayValue(keys, nextValue);
+                handleNonArrayValue([...keys, escapeKey(nextKey)], nextValue);
             }
             return output;
         }, {});

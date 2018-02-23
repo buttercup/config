@@ -23,5 +23,55 @@ describe("buttercup", function() {
                 "a.b.c": 2
             });
         });
+
+        it("outputs multiple items", function() {
+            const processed = objectToKeyList({
+                a: {
+                    b: {
+                        c: 2,
+                        d: "three"
+                    },
+                    e: "four"
+                }
+            });
+            expect(processed).to.deep.equal({
+                "a.b.c": 2,
+                "a.b.d": "three",
+                "a.e": "four"
+            });
+        });
+
+        it("outputs arrays", function() {
+            const processed = objectToKeyList({
+                a: {
+                    b: {
+                        c: [1, 2, 3]
+                    }
+                }
+            });
+            expect(processed).to.deep.equal({
+                "a.b.c.0": 1,
+                "a.b.c.1": 2,
+                "a.b.c.2": 3
+            });
+        });
+
+        it("outputs arrays with deep values", function() {
+            const processed = objectToKeyList({
+                a: {
+                    b: {
+                        c: [1, {
+                            d: 2,
+                            e: 3
+                        }]
+                    }
+                }
+            });
+            expect(processed).to.deep.equal({
+                "a.b.c.0": 1,
+                "a.b.c.1.d": 2,
+                "a.b.c.1.e": 3
+            });
+        });
     });
 });
