@@ -39,8 +39,7 @@ function configure(item, template = {}) {
 }
 
 function escapeKey(key) {
-    // @todo
-    return key;
+    return key.replace(/([^\\])\./g, "$1\\\\.");
 }
 
 function objectToKeyList(obj, keys = []) {

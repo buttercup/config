@@ -73,5 +73,14 @@ describe("buttercup", function() {
                 "a.b.c.1.e": 3
             });
         });
+
+        it("escapes keys", function() {
+            const processed = objectToKeyList({
+                "a.b": 1
+            });
+            expect(processed).to.deep.equal({
+                "a\\\\.b": 1
+            });
+        });
     });
 });
