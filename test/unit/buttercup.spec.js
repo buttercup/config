@@ -17,5 +17,20 @@ describe("buttercup", function() {
             const config = configure(this.fakeEntry);
             expect(config).to.be.an.instanceof(Configuration);
         });
+
+        describe("returned Configuration instance", function() {
+            beforeEach(function() {
+                this.config = configure(this.fakeEntry);
+            });
+
+            it("contains recorded shallow properties", function() {
+                expect(this.config.get("shallow")).to.equal(123);
+            });
+
+            it("contains recorded deep properties", function() {
+                expect(this.config.get("deep.a.b.c")).to.equal("text");
+                expect(this.config.get("deep.a.d")).to.be.null;
+            });
+        });
     });
 });

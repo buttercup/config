@@ -33,7 +33,7 @@ function configure(item, template = {}) {
         .filter(key => key.indexOf(CONFIG_KEY_PREFIX) === 0)
         // .map(key => key.substr(CONFIG_KEY_PREFIX.length + 1))
         .forEach(key => {
-            const setterKey = key.substr(CONFIG_KEY_PREFIX.length + 1);
+            const setterKey = key.substr(CONFIG_KEY_PREFIX.length);
             configuration.set(setterKey, JSON.parse(attributes[key]));
         });
     return configuration;
