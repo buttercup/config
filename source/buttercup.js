@@ -1,6 +1,6 @@
 const Configuration = require("./Configuration.js");
 
-const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE";
+const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE:";
 
 // function getConfigAttributes(item) {
 //     const attributes = item.getAttributes();
@@ -34,6 +34,12 @@ function configure(item, template = {}) {
         // .map(key => key.substr(CONFIG_KEY_PREFIX.length + 1))
         .forEach(key => {
             const setterKey = key.substr(CONFIG_KEY_PREFIX.length + 1);
-            configuration.set(setterKey, attributes[key]);
+            configuration.set(setterKey, JSON.parse(attributes[key]));
         });
+    return configuration;
 }
+
+module.exports = {
+    CONFIG_KEY_PREFIX,
+    configure
+};

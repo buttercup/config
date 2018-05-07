@@ -17,7 +17,6 @@ function enumerateObject(configInst, key, obj) {
 }
 
 class Configuration extends EventEmitter {
-
     constructor(initial = {}, template = {}) {
         super();
         this._config = createConfig(initial, template);
@@ -39,15 +38,13 @@ class Configuration extends EventEmitter {
         if (Array.isArray(value)) {
             enumerateArray(this, key, value);
             return;
-        } else if (typeof value === "object") {
+        } else if (typeof value === "object" && value !== null) {
             enumerateObject(this, key, value);
             return;
         }
         setDeep(this.config, key, value);
-        // dotProp.set(this.config, key, value);
-        this.emit("set", key, value);
+        this.emit("set", { key, value });
     }
-
 }
 
 module.exports = Configuration;

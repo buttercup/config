@@ -1,7 +1,6 @@
 const { keyToComponents, setDeep } = require("../../source/setter.js");
 
 describe("setter", function() {
-
     describe("keyToComponents", function() {
         it("splits keys by periods", function() {
             expect(keyToComponents("a.b.c")).to.deep.equal(["a", "b", "c"]);
@@ -49,5 +48,4 @@ describe("setter", function() {
             }).to.throw(/key.+array.+index/i);
         });
     });
-
 });

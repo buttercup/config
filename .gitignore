@@ -1,5 +1,5 @@
 *.logs
 .history
 .vscode
+.DS_Store
 node_modules
-
