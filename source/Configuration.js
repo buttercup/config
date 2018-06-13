@@ -64,7 +64,6 @@ class Configuration extends EventEmitter {
             return;
         }
         setDeep(this.config, key, value);
-        // dotProp.set(this.config, key, value);
         this.emit("set", key, value);
     }
 

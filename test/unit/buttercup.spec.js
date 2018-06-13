@@ -1,4 +1,4 @@
-const { applyConfiguration, objectToKeyList } = require("../../source/buttercup.js");
+const { applyConfiguration, encodeValue, objectToKeyList } = require("../../source/buttercup.js");
 
 describe("buttercup", function() {
     describe("applyConfiguration", function() {
@@ -33,12 +33,12 @@ describe("buttercup", function() {
 
         it("adds new items", function() {
             applyConfiguration(this.item, this.configuration);
-            expect(this.item.setAttribute.calledWithExactly("BCUP_CONFIG_VALUE_b.e", "new")).to.be.true;
+            expect(this.item.setAttribute.calledWithExactly("BCUP_CONFIG_VALUE_b.e", encodeValue("new"))).to.be.true;
         });
 
         it("overwrites existing item values", function() {
             applyConfiguration(this.item, this.configuration);
-            expect(this.item.setAttribute.calledWithExactly("BCUP_CONFIG_VALUE_a", "shallow-overwrite")).to.be.true;
+            expect(this.item.setAttribute.calledWithExactly("BCUP_CONFIG_VALUE_a", encodeValue("shallow-overwrite"))).to.be.true;
         });
     });
 

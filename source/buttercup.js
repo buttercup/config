@@ -15,7 +15,7 @@ function applyConfiguration(item, configuration) {
     // Overwrite/set all the still-present values
     Object.keys(list).forEach(key => {
         const attributeName = `${CONFIG_KEY_PREFIX}${key}`;
-        item.setAttribute(attributeName, list[key]);
+        item.setAttribute(attributeName, encodeValue(list[key]));
     });
 }
 
@@ -27,12 +27,20 @@ function configure(item, template = {}) {
         .filter(key => key.indexOf(CONFIG_KEY_PREFIX) === 0)
         .forEach(key => {
             const setterKey = key.substr(CONFIG_KEY_PREFIX.length);
-            configuration.set(setterKey, attributes[key]);
+            configuration.set(setterKey, decodeValue(attributes[key]));
         });
     configuration.applicator = () => {
         applyConfiguration(item, configuration);
     };
     return configuration;
+}
+
+function decodeValue(val) {
+    return JSON.parse(val);
+}
+
+function encodeValue(val) {
+    return JSON.stringify(val);
 }
 
 function escapeKey(key) {
@@ -73,6 +81,8 @@ function objectToKeyList(obj, keys = []) {
 module.exports = {
     applyConfiguration,
     configure,
+    decodeValue,
+    encodeValue,
     escapeKey,
     objectToKeyList
 };
