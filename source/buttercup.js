@@ -1,25 +1,22 @@
 const Configuration = require("./Configuration.js");
 
-const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE";
-
-// function getConfigAttributes(item) {
-//     const attributes = item.getAttributes();
-//     return Object
-//         .keys(attributes)
-//         .filter(key => key.indexOf(CONFIG_KEY_PREFIX) === 0)
-//         .reduce((output, key) => {
-//             output[key] = attributes[key];
-//             return output;
-//         }, {});
-// }
-
-// function getConfiguration(item) {
-//     const rawAttributes = getConfigAttributes(item);
-
-// }
+const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE_";
 
 function applyConfiguration(item, configuration) {
     const list = objectToKeyList(configuration.config);
+    const existingAttributes = item.getAttributes();
+    // First remove all now non-existent attributes
+    Object.keys(existingAttributes).forEach(attribute => {
+        const strippedKey = attribute.substr(CONFIG_KEY_PREFIX.length);
+        if (list.hasOwnProperty(strippedKey) === false) {
+            item.deleteAttribute(attribute);
+        }
+    });
+    // Overwrite/set all the still-present values
+    Object.keys(list).forEach(key => {
+        const attributeName = `${CONFIG_KEY_PREFIX}${key}`;
+        item.setAttribute(attributeName, list[key]);
+    });
 }
 
 function configure(item, template = {}) {
@@ -29,7 +26,7 @@ function configure(item, template = {}) {
         .keys(attributes)
         .filter(key => key.indexOf(CONFIG_KEY_PREFIX) === 0)
         .forEach(key => {
-            const setterKey = key.substr(CONFIG_KEY_PREFIX.length + 1);
+            const setterKey = key.substr(CONFIG_KEY_PREFIX.length);
             configuration.set(setterKey, attributes[key]);
         });
     configuration.applicator = () => {
