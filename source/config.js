@@ -1,8 +1,9 @@
-const merge = require("deepmerge");
+const merge = require("merge");
 
 function createConfig(configObject, template = {}) {
-    return merge(
-        template,
+    const base = merge.recursive({}, template);
+    return merge.recursive(
+        base,
         configObject
     );
 }

@@ -4,10 +4,12 @@ const clone = require("clone");
 const { createConfig } = require("./config.js");
 const { setDeep } = require("./setter.js");
 
+function defaultApplicator() {
+    throw new Error("Unable to apply configuration: No target set");
+}
+
 function enumerateArray(configInst, key, array) {
-    array.forEach(item => {
-        configInst.set(`${key}._`, item);
-    });
+    setDeep(configInst.config, key, array);
 }
 
 function enumerateObject(configInst, key, obj) {
@@ -20,10 +22,28 @@ class Configuration extends EventEmitter {
     constructor(initial = {}, template = {}) {
         super();
         this._config = createConfig(initial, template);
+        this._applicator = defaultApplicator;
+        this.enumerateObject = enumerateObject;
+        this.enumerateArray = enumerateArray;
+    }
+
+    get applicator() {
+        return this._applicator;
     }
 
     get config() {
         return this._config;
+    }
+
+    set applicator(fn) {
+        if (typeof fn !== "function") {
+            throw new Error("Invalid applicator: Expected a function");
+        }
+        this._applicator = fn;
+    }
+
+    apply() {
+        return this.applicator();
     }
 
     export() {
@@ -36,10 +56,10 @@ class Configuration extends EventEmitter {
 
     set(key, value) {
         if (Array.isArray(value)) {
-            enumerateArray(this, key, value);
+            this.enumerateArray(this, key, value);
             return;
         } else if (typeof value === "object" && value !== null) {
-            enumerateObject(this, key, value);
+            this.enumerateObject(this, key, value);
             return;
         }
         setDeep(this.config, key, value);

@@ -1,4 +1,3 @@
-const ANONYMOUS_ARRAY_KEY = "_";
 const NUMBER = /^\d+$/;
 const SPLIT_PLACEHOLDER = "__BCUP_CONFIG_SPLITTER__";
 
@@ -20,37 +19,14 @@ function setDeep(obj, key, value) {
         const newParts = [...keyParts];
         const keyPartRaw = newParts.shift();
         const thisKeyPart = NUMBER.test(keyPartRaw) ? parseInt(keyPartRaw, 10) : keyPartRaw;
-        const arrayInsertion = keyPartRaw === ANONYMOUS_ARRAY_KEY;
         if (newParts.length > 0) {
             // still items left
-            if (NUMBER.test(newParts[0]) || newParts[0] === ANONYMOUS_ARRAY_KEY) {
-                // next item is an array value
-                const valueToInsert = arrayInsertion ? [] : currentObj[thisKeyPart] || [];
-                if (arrayInsertion) {
-                    const index = currentObj.push(valueToInsert) - 1;
-                    set(currentObj[index], newParts);
-                } else {
-                    currentObj[thisKeyPart] = valueToInsert;
-                    set(currentObj[thisKeyPart], newParts);
-                }
-            } else {
-                // next item is just a property
-                const valueToInsert = arrayInsertion ? {} : currentObj[thisKeyPart] || {};
-                if (arrayInsertion) {
-                    const index = currentObj.push(valueToInsert) - 1;
-                    set(currentObj[index], newParts);
-                } else {
-                    currentObj[thisKeyPart] = valueToInsert;
-                    set(currentObj[thisKeyPart], newParts);
-                }
-            }
+            const valueToInsert = currentObj[thisKeyPart] || {};
+            currentObj[thisKeyPart] = valueToInsert;
+            set(currentObj[thisKeyPart], newParts);
         } else {
             // last key part
-            if (arrayInsertion) {
-                currentObj.push(value);
-            } else {
-                currentObj[thisKeyPart] = value;
-            }
+            currentObj[thisKeyPart] = value;
         }
     };
     const components = keyToComponents(key);

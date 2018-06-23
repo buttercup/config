@@ -9,13 +9,13 @@ describe("Configuration", function() {
 
     it("merges the initial value and the template", function() {
         const instance = new Configuration(
-            { a: { b: { c: [1, 2, 3]}, d: 10}},
-            { a: { b: { c: [4]}, d: 9 }}
+            { a: { b: { c: [1, 2, 3] }, d: 10 } },
+            { a: { b: { c: [4] }, d: 9 } }
         );
         expect(instance.config).to.deep.equal({
             a: {
                 b: {
-                    c: [4, 1, 2, 3]
+                    c: [1, 2, 3]
                 },
                 d: 10
             }
@@ -89,21 +89,10 @@ describe("Configuration", function() {
             });
         });
 
-        it("sets arrays for numbers", function() {
+        it("sets object indexes for numbers", function() {
             this.instance.set("root.0", 456);
             expect(this.instance.config).to.deep.equal({
-                root: [ 456 ]
-            });
-        });
-
-        it("sets deep array contents", function() {
-            this.instance.set("root.0.a.b", 789);
-            expect(this.instance.config).to.deep.equal({
-                root: [{
-                    a: {
-                        b: 789
-                    }
-                }]
+                root: { "0": 456 }
             });
         });
 
@@ -136,15 +125,6 @@ describe("Configuration", function() {
             expect(this.instance.emit.calledTwice).to.be.true;
             expect(this.instance.emit.calledWithExactly("set", { key: "basic.key.a", value: 1 })).to.be.true;
             expect(this.instance.emit.calledWithExactly("set", { key: "basic.key.b.c", value: 2 })).to.be.true;
-        });
-
-        it("emits multiple events for array values", function() {
-            sinon.spy(this.instance, "emit");
-            this.instance.set("basic.key", [ 1, 2, { a: true } ]);
-            expect(this.instance.emit.calledThrice).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key._", value: 1 })).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key._", value: 2 })).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key._.a", value: true })).to.be.true;
         });
     });
 });
