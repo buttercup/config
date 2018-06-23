@@ -1,7 +1,7 @@
 # Config
 Configuration utility
 
-[![Build Status](https://travis-ci.org/buttercup/buttercup-config.svg?branch=master)](https://travis-ci.org/buttercup/buttercup-config)
+[![npm version](https://badge.fury.io/js/%40buttercup%2Fconfig.svg)](https://badge.fury.io/js/%40buttercup%2Fconfig) [![Build Status](https://travis-ci.org/buttercup/config.svg?branch=master)](https://travis-ci.org/buttercup/config)
 
 ## About
 This library provides tools for configuring Buttercup entities and applications. Buttercup Archives, Groups and Entries can be configured easily, as well as raw objects for general application support (settings pages etc.).
