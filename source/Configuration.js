@@ -58,12 +58,12 @@ class Configuration extends EventEmitter {
         if (Array.isArray(value)) {
             this.enumerateArray(this, key, value);
             return;
-        } else if (typeof value === "object") {
+        } else if (typeof value === "object" && value !== null) {
             this.enumerateObject(this, key, value);
             return;
         }
         setDeep(this.config, key, value);
-        this.emit("set", key, value);
+        this.emit("set", { key, value });
     }
 }
 

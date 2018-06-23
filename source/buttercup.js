@@ -1,7 +1,7 @@
 const Configuration = require("./Configuration.js");
 const { setDeep } = require("./setter.js");
 
-const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE_";
+const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE:";
 
 function applyConfiguration(item, configuration) {
     const list = objectToKeyList(configuration.config);
@@ -66,6 +66,7 @@ function objectToKeyList(obj, keys = []) {
 }
 
 module.exports = {
+    CONFIG_KEY_PREFIX,
     applyConfiguration,
     configure,
     decodeValue,

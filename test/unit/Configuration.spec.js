@@ -116,15 +116,15 @@ describe("Configuration", function() {
             sinon.spy(this.instance, "emit");
             this.instance.set("basic.key", "value");
             expect(this.instance.emit.calledOnce).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key", "value")).to.be.true;
+            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key", value: "value" })).to.be.true;
         });
 
         it("emits multiple events for object values", function() {
             sinon.spy(this.instance, "emit");
             this.instance.set("basic.key", { a: 1, b: { c: 2 } });
             expect(this.instance.emit.calledTwice).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key.a", 1)).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key.b.c", 2)).to.be.true;
+            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key.a", value: 1 })).to.be.true;
+            expect(this.instance.emit.calledWithExactly("set", { key: "basic.key.b.c", value: 2 })).to.be.true;
         });
     });
 });
