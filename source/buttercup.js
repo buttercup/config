@@ -52,27 +52,13 @@ function objectToKeyList(obj, keys = []) {
         .keys(obj)
         .reduce((output, nextKey) => {
             const nextValue = obj[nextKey];
-            const handleNonArrayValue = (deepKeys, value) => {
-                if (typeof value === "object" && value !== null) {
-                    Object.assign(output, objectToKeyList(value, deepKeys));
-                } else {
-                    const finalKey = deepKeys.join(".");
-                    output[finalKey] = value;
-                }
-            };
-            const handleArrayValue = (deepKeys, value) => {
-                value.forEach((deepValue, index) => {
-                    if (Array.isArray(deepValue)) {
-                        handleArrayValue([...deepKeys, index], deepValue);
-                    } else {
-                        handleNonArrayValue([...deepKeys, index], deepValue);
-                    }
-                });
-            };
+            const deepKeys = [...keys, escapeKey(nextKey)];
             if (Array.isArray(nextValue)) {
-                handleArrayValue([...keys, escapeKey(nextKey)], nextValue);
+                output[deepKeys.join(".")] = nextValue;
+            } else if (typeof nextValue === "object" && nextValue !== null) {
+                Object.assign(output, objectToKeyList(nextValue, deepKeys));
             } else {
-                handleNonArrayValue([...keys, escapeKey(nextKey)], nextValue);
+                output[deepKeys.join(".")] = nextValue;
             }
             return output;
         }, {});

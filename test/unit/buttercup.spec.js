@@ -8,8 +8,8 @@ describe("buttercup", function() {
                 getAttributes: sinon.stub().returns({
                     "BCUP_CONFIG_VALUE_a": "shallow",
                     "BCUP_CONFIG_VALUE_b.c": "deep",
-                    "BCUP_CONFIG_VALUE_b.d.0": "one",
-                    "BCUP_CONFIG_VALUE_b.d.1": "two"
+                    "BCUP_CONFIG_VALUE_b.d": ["one", "two"],
+                    "BCUP_CONFIG_VALUE_f.g": "test"
                 }),
                 setAttribute: sinon.spy()
             };
@@ -27,7 +27,7 @@ describe("buttercup", function() {
 
         it("removes items that are no longer present", function() {
             applyConfiguration(this.item, this.configuration);
-            expect(this.item.deleteAttribute.calledWithExactly("BCUP_CONFIG_VALUE_b.d.1")).to.be.true;
+            expect(this.item.deleteAttribute.calledWithExactly("BCUP_CONFIG_VALUE_f.g")).to.be.true;
             expect(this.item.deleteAttribute.calledOnce).to.be.true;
         });
 
@@ -82,7 +82,7 @@ describe("buttercup", function() {
             });
         });
 
-        it("outputs arrays", function() {
+        it("outputs arrays without change", function() {
             const processed = objectToKeyList({
                 a: {
                     b: {
@@ -91,9 +91,7 @@ describe("buttercup", function() {
                 }
             });
             expect(processed).to.deep.equal({
-                "a.b.c.0": 1,
-                "a.b.c.1": 2,
-                "a.b.c.2": 3
+                "a.b.c": [1, 2, 3]
             });
         });
 
@@ -109,9 +107,10 @@ describe("buttercup", function() {
                 }
             });
             expect(processed).to.deep.equal({
-                "a.b.c.0": 1,
-                "a.b.c.1.d": 2,
-                "a.b.c.1.e": 3
+                "a.b.c": [1, {
+                    d: 2,
+                    e: 3
+                }]
             });
         });
 

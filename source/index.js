@@ -1,7 +1,7 @@
 const Configuration = require("./Configuration.js");
-const { configure } = require("./buttercup.js");
+const { configure: configureButtercup } = require("./buttercup.js");
 
 module.exports = {
     Configuration,
-    configure
+    configureButtercup
 };

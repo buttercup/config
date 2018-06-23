@@ -1,8 +1,8 @@
 const { Archive } = require("buttercup");
-const { configure } = require("../../source/index.js");
+const { configureButtercup } = require("../../source/index.js");
 
 describe("@buttercup/config", function() {
-    describe("configure", function() {
+    describe("configureButtercup", function() {
         beforeEach(function() {
             const archive = new Archive();
             const group = archive.createGroup("test");
@@ -12,10 +12,10 @@ describe("@buttercup/config", function() {
 
         it("can configure and write properties", function() {
             this.configurables.forEach(target => {
-                let config = configure(target);
+                let config = configureButtercup(target);
                 config.set("a.b.c", "some value");
                 config.apply();
-                config = configure(target);
+                config = configureButtercup(target);
                 expect(config.get("a.b.c")).to.equal("some value");
                 expect(config.get("a.d.c")).to.be.undefined;
             });
