@@ -28,9 +28,9 @@
   "homepage": "https://github.com/buttercup/buttercup-config#readme",
   "dependencies": {
     "clone": "^2.1.1",
-    "deepmerge": "^2.0.1",
     "dot-prop": "^4.2.0",
-    "eventemitter3": "^2.0.3"
+    "eventemitter3": "^2.0.3",
+    "merge": "^1.2.0"
   },
   "devDependencies": {
     "buttercup": "^1.7.1",

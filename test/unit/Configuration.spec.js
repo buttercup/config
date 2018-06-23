@@ -9,13 +9,13 @@ describe("Configuration", function() {
 
     it("merges the initial value and the template", function() {
         const instance = new Configuration(
-            { a: { b: { c: [1, 2, 3]}, d: 10}},
-            { a: { b: { c: [4]}, d: 9 }}
+            { a: { b: { c: [1, 2, 3] }, d: 10 } },
+            { a: { b: { c: [4] }, d: 9 } }
         );
         expect(instance.config).to.deep.equal({
             a: {
                 b: {
-                    c: [4, 1, 2, 3]
+                    c: [1, 2, 3]
                 },
                 d: 10
             }
