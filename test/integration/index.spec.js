@@ -21,26 +21,23 @@ describe("@buttercup/config", function() {
             });
         });
 
-        // it("can configure items using templates", function() {
-        //     const getTemplate = () => ({
-        //         a: {
-        //             b: "val",
-        //             c: [0, 1, 2]
-        //         }
-        //     });
-        //     this.configurables.forEach(target => {
-        //         let config = configure(target, getTemplate());
-        //         config.set("a.d", "test");
-        //         const arr = config.get("a.c");
-        //         console.log(arr);
-        //         config.set("a.c", arr);
-        //         config.apply();
-        //         console.log(target._getWestley().getDataset());
-        //         config = configure(target, getTemplate());
-        //         expect(config.get("a.b")).to.equal("val");
-        //         expect(config.get("a.d")).to.equal("test");
-        //         expect(config.get("a.c")).to.deep.equal([0, 1, 2, 3]);
-        //     });
-        // });
+        it("can configure items using templates", function() {
+            const getTemplate = () => ({
+                a: {
+                    b: "val",
+                    c: [0, 1, 2]
+                }
+            });
+            this.configurables.forEach(target => {
+                let config = configureButtercup(target, getTemplate());
+                config.set("a.d", "test");
+                config.set("a.c", [3, 4, 5]);
+                config.apply();
+                config = configureButtercup(target, getTemplate());
+                expect(config.get("a.b")).to.equal("val");
+                expect(config.get("a.d")).to.equal("test");
+                expect(config.get("a.c")).to.deep.equal([3, 4, 5]);
+            });
+        });
     });
 });

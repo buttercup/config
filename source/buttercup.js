@@ -1,4 +1,5 @@
 const Configuration = require("./Configuration.js");
+const { setDeep } = require("./setter.js");
 
 const CONFIG_KEY_PREFIX = "BCUP_CONFIG_VALUE_";
 

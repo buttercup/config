@@ -1,7 +1,6 @@
 const Configuration = require("../../source/Configuration.js");
 
 describe("Configuration", function() {
-
     it("can be instantiated", function() {
         expect(() => {
             new Configuration();
@@ -24,7 +23,6 @@ describe("Configuration", function() {
     });
 
     describe("export", function() {
-
         beforeEach(function() {
             this.object = { a: true };
             this.instance = new Configuration(this.object);
@@ -37,11 +35,9 @@ describe("Configuration", function() {
         it("exports a different object", function() {
             expect(this.instance.export()).to.not.equal(this.object);
         });
-
     });
 
     describe("get", function() {
-
         beforeEach(function() {
             this.basicInstance = new Configuration({
                 a: 1,
@@ -70,11 +66,9 @@ describe("Configuration", function() {
         it("returns the default value if the key doesn't exist", function() {
             expect(this.basicInstance.get("d.e.f", 1987)).to.equal(1987);
         });
-
     });
 
     describe("set", function() {
-
         beforeEach(function() {
             this.instance = new Configuration();
         });
@@ -95,21 +89,10 @@ describe("Configuration", function() {
             });
         });
 
-        it("sets arrays for numbers", function() {
+        it("sets object indexes for numbers", function() {
             this.instance.set("root.0", 456);
             expect(this.instance.config).to.deep.equal({
-                root: [ 456 ]
-            });
-        });
-
-        it("sets deep array contents", function() {
-            this.instance.set("root.0.a.b", 789);
-            expect(this.instance.config).to.deep.equal({
-                root: [{
-                    a: {
-                        b: 789
-                    }
-                }]
+                root: { "0": 456 }
             });
         });
 
@@ -143,16 +126,5 @@ describe("Configuration", function() {
             expect(this.instance.emit.calledWithExactly("set", "basic.key.a", 1)).to.be.true;
             expect(this.instance.emit.calledWithExactly("set", "basic.key.b.c", 2)).to.be.true;
         });
-
-        it("emits multiple events for array values", function() {
-            sinon.spy(this.instance, "emit");
-            this.instance.set("basic.key", [ 1, 2, { a: true } ]);
-            expect(this.instance.emit.calledThrice).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key._", 1)).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key._", 2)).to.be.true;
-            expect(this.instance.emit.calledWithExactly("set", "basic.key._.a", true)).to.be.true;
-        });
-
     });
-
 });

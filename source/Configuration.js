@@ -9,9 +9,7 @@ function defaultApplicator() {
 }
 
 function enumerateArray(configInst, key, array) {
-    array.forEach(item => {
-        configInst.set(`${key}._`, item);
-    });
+    setDeep(configInst.config, key, array);
 }
 
 function enumerateObject(configInst, key, obj) {
